@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <h2>Product Info</h2>
+  <div class="header-box">
+    <table>
+      <tbody th:object="${dto}">
+      <tr>
+        <td>Name</td>
+        <td>: <span th:text="*{name}"></span></td>
+      </tr>
+      <tr>
+        <td>Category</td>
+        <td>: <span th:text="*{category}"></span></td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>: <span th:text="*{description}"></span></td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td>: <span th:text="*{#numbers.formatCurrency(price)}"></span></td>
+      </tr>
+      <tr>
+        <td>Seller</td>
+        <td>: <span th:text="*{seller}"></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <a class="button-like" th:href="@{/shop/index}">Close</a>
+
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

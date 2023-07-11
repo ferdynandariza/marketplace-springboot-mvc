@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body th:with="username=${#authentication.getName()}">
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <div class="error-box failed">
+    <h2>Transaction Failed :(</h2>
+    <p>It seems like your balance is not enough to proceed the transaction</p>
+    <p>Please, add your balance or remove some item(s) in your cart.</p>
+  </div>
+  <a class="button-like" th:href="@{'/cart/' + ${username}}">
+    <i class="fas fa-arrow-left"></i> Back to My Cart</a>
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

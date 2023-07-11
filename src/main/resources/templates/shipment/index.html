@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+    <div>
+        <h2>Shipment</h2>
+        <a class="button-like" th:href="@{/shipment/form}">
+            <i class="fas fa-plus"></i> Add New Shipment
+        </a>
+    </div>
+
+    <div class="data-grid">
+        <table>
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Service</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${table}" th:object="${row}">
+                <td>
+                    <a class="button-like"
+                       th:href="@{/shipment/form(name=*{name})}"
+                       th:attr="data-used=*{isUsed}">Edit</a>
+                    <a class="button-like delete-button"
+                       th:href="@{/shipment/delete(name=*{name})}"
+                       th:attr="data-name=*{name},
+                        data-used=*{isUsed}">Delete</a>
+                    <a class="button-like"
+                       th:href="@{/shipment/stop(name=*{name})}"
+                       th:attr="data-service=*{service}">Stop Service</a>
+                </td>
+                <td>
+                    <span th:text="*{name}"></span>
+                </td>
+                <td>
+                    <span th:text="*{#numbers.formatCurrency(price)}"></span>
+                </td>
+                <td>
+                    <span th:text="*{service}"></span>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <div class="pagination">
+                        <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+                        <div th:if="${totalPages != 0}">
+                            <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                               th:href="@{/shipment/index(page=${loop})}" th:text="${loop}"></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="modal">
+        <div class="pop-up">
+            <div><p>
+                Are you sure want to delete <span class="name"></span> shipment?</p></div>
+            <a class="button-like yes">Yes</a>
+            <a class="button-like cancel">Cancel</a>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

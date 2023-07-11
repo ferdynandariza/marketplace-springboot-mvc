@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+    <h2>Add Balance</h2>
+    <form th:attr="action=@{/profile/save}" method="post" th:object="${dto}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+        <input type="hidden" name="username" th:value="${#authentication.getName()}">
+        <table>
+            <tbody>
+            <tr>
+                <td><label>Balance to Add</label></td>
+                <td>
+                    <input type="number" th:field="*{balanceAddititon}">
+                    <div class="validation-error" th:errors="*{balanceAddititon}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button class="button-like" type="submit">Submit</button>
+        <a class="button-like" th:href="@{'/profile/' + ${#authentication.getName()}}">Cancel</a>
+
+    </form>
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

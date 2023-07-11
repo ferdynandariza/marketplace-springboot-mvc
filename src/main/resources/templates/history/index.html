@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <div>
+    <h2>History</h2>
+  </div>
+
+  <form class="search-box" th:attr="action=@{/history/index}" method="get">
+    <table>
+      <tbody>
+      <tr>
+        <td><label>Seller</label></td>
+        <td>
+          <select name="sellerId" th:value="${sellerId}">
+            <option th:value=null>No specific seller</option>
+            <option th:each="option : ${sellerDropdown}"
+                    th:value="${option.value}" th:text="${option.text}"
+                    th:selected="${option.value == sellerId}">
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label>Buyer</label></td>
+        <td>
+          <select name="buyerId" th:value="${buyerId}">
+            <option th:value=null>No specific buyer</option>
+            <option th:each="option : ${buyerDropdown}"
+                    th:value="${option.value}" th:text="${option.text}"
+                    th:selected="${option.value == buyerId}">
+            </option>
+          </select>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="submit" class="blue-button">Search</button>
+  </form>
+
+  <div class="data-grid">
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Sellet</th>
+        <th>Buyer</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Shipment</th>
+        <th>Total Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="row : ${table}" th:object="${row}">
+        <td>
+          <span th:text="*{date}"></span>
+        </td>
+        <td>
+          <span th:text="*{seller}"></span>
+        </td>
+        <td>
+          <span th:text="*{buyer}"></span>
+        </td>
+        <td>
+          <span th:text="*{product}"></span>
+        </td>
+        <td>
+          <span th:text="*{quantity}"></span>
+        </td>
+        <td>
+          <span th:text="*{shipment}"></span>
+        </td>
+        <td>
+          <span th:text="*{#numbers.formatCurrency(totalPrice)}"></span>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="7">
+          <div class="pagination">
+            <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+            <div th:if="${totalPages != 0}">
+              <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                 th:href="@{/history/index(page=${loop})}" th:text="${loop}"></a>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

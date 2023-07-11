@@ -1,0 +1,64 @@
+CREATE DATABASE Marketplace;
+
+GO
+
+USE Marketplace;
+
+GO
+
+--select * from INFORMATION_SCHEMA.TABLES
+CREATE TABLE Account (
+	Username VARCHAR(50) PRIMARY KEY,
+	Password VARCHAR(200) NOT NULL,
+	Role VARCHAR(20) NOT NULL,
+	CONSTRAINT CH__Role CHECK (Role IN ('Admin', 'Buyer', 'Seller')) 	
+);
+
+CREATE TABLE AccountDetail (
+	Username VARCHAR(50) PRIMARY KEY,
+	Name VARCHAR(50) NOT NULL,
+	Address VARCHAR(200),
+	Balance MONEY,
+);
+
+ALTER TABLE AccountDetail
+ADD FOREIGN KEY (Username) REFERENCES Account(Username)
+select * from Account
+
+CREATE TABLE Category(
+	Name VARCHAR(50) PRIMARY KEY,
+	Description VARCHAR(200)
+);
+
+CREATE TABLE Product(
+	Id INT PRIMARY KEY IDENTITY(1, 1),
+	Name VARCHAR(50) NOT NULL,
+	CategoryName VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Category(Name),
+	Description VARCHAR(200),
+	Seller VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Account(Username),
+	Price MONEY NOT NULL,
+	Discontinue BIT NOT NULL
+);
+
+CREATE TABLE Shipment(
+	Name VARCHAR(50) PRIMARY KEY,
+	Price MONEY NOT NULL,
+	Service BIT NOT NULL
+);
+
+CREATE TABLE History(
+	Id INT PRIMARY KEY IDENTITY(1, 1),
+	Buyer VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Account(Username),
+	ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(Id),
+	Quantity INT NOT NULL,
+	ShipmentName VARCHAR(50),
+	TotalPrice MONEY NOT NULL,
+	Date DATE NOT NULL
+);
+
+CREATE TABLE Cart(
+	Id INT PRIMARY KEY IDENTITY(1, 1),
+	Buyer VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Account(Username),
+	Quantity INT NOT NULL,
+	ShipmentName VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Shipment(Name),
+);

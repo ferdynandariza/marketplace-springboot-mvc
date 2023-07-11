@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body th:with="username=${#authentication.getName()}">
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <div>
+    <h2>My Cart</h2>
+    <a class="button-like" th:href="@{/cart/purchase-all(buyerId=${#authentication.getName()})}">
+      <i class="fas fa-paper-plane"></i> Purchase All
+    </a>
+  </div>
+
+  <div class="data-grid">
+    <table>
+      <thead>
+      <tr>
+        <th>Action</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Shipment</th>
+        <th>Seller</th>
+        <th>Total Price</th>
+      </tr>
+      </thead>
+      <tbody th:with="username=${#authentication.getName()}">
+      <tr th:each="row : ${table}" th:object="${row}">
+        <td>
+          <a class="button-like delete-button"
+             th:href="@{/cart/remove(id=*{id})}"
+             th:attr="data-name=*{product}">Remove</a>
+        </td>
+        <td>
+          <span th:text="*{product}"></span>
+        </td>
+        <td>
+          <span th:text="*{quantity}"></span>
+        </td>
+        <td>
+          <span th:text="*{shipment}"></span>
+        </td>
+        <td>
+          <span th:text="*{seller}"></span>
+        </td>
+        <td>
+          <span th:text="*{#numbers.formatCurrency(totalPrice)}"></span>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="6">
+          <div class="pagination">
+            <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+            <div th:if="${totalPages != 0}">
+              <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                 th:href="@{'/cart/' + ${#authentication.getName()}(page=${loop})}" th:text="${loop}"></a>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="modal">
+    <div class="pop-up">
+      <div><p>
+        Are you sure want to delete <span class="name"></span> from cart?</p></div>
+      <a class="button-like yes">Yes</a>
+      <a class="button-like cancel">Cancel</a>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

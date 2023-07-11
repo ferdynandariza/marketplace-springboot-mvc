@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main th:data-role="${#authentication.getAuthorities()}">
+    <h2>Profile</h2>
+    <div class="header-box">
+        <table>
+            <tbody th:object="${profile}">
+            <tr>
+                <td>Name</td>
+                <td>: <span th:text="*{name}"></span></td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>: <span th:text="*{role}"></span></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>: <span th:text="*{address}"></span></td>
+            </tr>
+            <tr>
+                <td>Balance</td>
+                <td>: <span th:text="*{#numbers.formatCurrency(balance)}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a class="button-like balance-button"
+                       th:href="@{/profile/add-balance}">Add Balance <i class="fas fa-coins"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="data-grid">
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Shipment</th>
+                <th>Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${table}" th:object="${row}">
+                <td>
+                    <span th:text="*{date}"></span>
+                </td>
+                <td>
+                    <span th:text="*{product}"></span>
+                </td>
+                <td>
+                    <span th:text="*{quantity}"></span>
+                </td>
+                <td>
+                    <span th:text="*{shipment}"></span>
+                </td>
+                <td>
+                    <span th:text="*{#numbers.formatCurrency(totalPrice)}"></span>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <div class="pagination">
+                        <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+                        <div th:if="${totalPages != 0}">
+                            <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                               th:href="@{'/profile/' + ${#authentication.getName()}(page=${loop})}" th:text="${loop}"></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="modal">
+        <div class="pop-up header-box">
+            <h3>Add Balance</h3>
+            <form th:attr="action=@{/profile/add-balance/}" method="post" th:object="${addBalance}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+                <input type="hidden" th:field="*{username}">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>Balance to Add</label>
+                            </td>
+                            <td>
+                                <input type="number" th:field="*{balanceAddititon}" >
+                                <div class="validation-error"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="button-like submit-balance">Add</button>
+                <a class="button-like cancel">Cancel</a>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

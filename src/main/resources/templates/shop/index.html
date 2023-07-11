@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+    <div>
+        <h2>Shop</h2>
+    </div>
+    <form class="search-box" th:attr="action=@{/shop/index}" method="get">
+        <table>
+            <tbody>
+            <tr>
+                <td><label>Name</label></td>
+                <td>
+                    <input type="text" name="name" th:value="${name}">
+                </td>
+            </tr>
+            <tr>
+                <td><label>category</label></td>
+                <td>
+                    <input type="text" name="category" th:value="${category}">
+                </td>
+            </tr>
+            <tr>
+                <td><label>Description</label></td>
+                <td>
+                    <input type="text" name="description" th:value="${description}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="blue-button">Search</button>
+    </form>
+
+
+    <div class="data-grid">
+        <table>
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${table}" th:object="${row}">
+                <td>
+                    <a class="button-like"
+                       th:href="@{/shop/add(productId=*{id})}"
+                       th:attr="data-name=*{id}">Add To Cart</a>
+                    <a class="button-like detail-button"
+                       th:href="@{/shop/info(productId=*{id})}"
+                       th:attr="data-id=*{id}">Detail Info</a>
+                </td>
+                <td>
+                    <span th:text="*{name}"></span>
+                </td>
+                <td>
+                    <span th:text="*{#numbers.formatCurrency(price)}"></span>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3">
+                    <div class="pagination">
+                        <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+                        <div th:if="${totalPages != 0}">
+                            <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                               th:href="@{/shop/index(page=${loop})}" th:text="${loop}"></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="modal">
+        <div class="pop-up header-box">
+            <h2>Product Info</h2>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>: <span id="name"></span></td>
+                </tr>
+                <tr>
+                    <td>Category</td>
+                    <td>: <span id="category"></span></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>: <span id="description"></span></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>: <span id="price"></span></td>
+                </tr>
+                <tr>
+                    <td>Seller</td>
+                    <td>: <span id="seller"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <a class="button-like cancel" >Close</a>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

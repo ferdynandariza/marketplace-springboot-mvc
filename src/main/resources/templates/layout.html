@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org"  xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Troll Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--    <link rel="icon" type="image/ico" th:href="@{/favicon.ico}">-->
+    <link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/site.css}">
+    <script th:src="@{/resources/script/jquery-3.6.0.js}"></script>
+    <script th:src="@{/resources/script/script.js}" defer></script>
+</head>
+<body th:with="username=${#authentication.getName()}">
+<header th:fragment="header" >
+    <h3> <i class="fas fa-leaf"></i> Troll Market</h3>
+
+    <div class="user">
+        <span>Welcome, <span sec:authentication="name">anonymous</span></span>
+        <form th:attr="action=@{/logout}" method="POST">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
+    </div>
+
+</header>
+
+<nav th:fragment="navigation"
+     th:data-role="${#authentication.getAuthorities()}"
+     th:data-username="${#authentication.getName()}"
+     th:with="username=${#authentication.getName()}">
+    <div>
+       <a class="home"
+          th:href="@{/}"><i class="fas fa-home"></i> Home</a>
+        <a class="profile"
+           th:href="@{'/profile/' + ${username}}"><i class="fas fa-user"></i> Profile</a>
+        <a class="shop"
+           th:href="@{/shop}"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a class="merchandise"
+           th:href="@{'/merchandise/' + ${username}}"><i class="fas fa-box-open"></i> Merchandise</a>
+        <a class="shipment"
+           th:href="@{/shipment}"><i class="fas fa-truck-pickup"></i> Shipment</a>
+        <a class="cart"
+           th:href="@{'/cart/' + ${username}}"><i class="fas fa-shopping-cart"></i> My Cart</a>
+        <a class="admin"
+           th:href="@{/admin}"><i class="fas fa-lock"></i> Admin</a>
+        <a class="history"
+           th:href="@{/history}"><i class="fas fa-history"></i> History</a>
+
+    </div>
+</nav>
+<main>
+    <div class="landing-box">
+        <h1><i class="fas fa-leaf"></i></h1> <h2></h2>
+        <p>Selamat datang di <span class="bold">Troll Market</span>.</p>
+        <p>Ini adalah marketplace yang tidak pernah ada promosi dan diskon.</p>
+        <p>Karena ini hanya assignment buat kalian, jadi buat apa ada diskon?</p>
+    </div>
+</main>
+<footer th:fragment="footer">
+    <p>Copyright &copy 2023
+        <span class="bold">Ferdy Nanda Riza</span>
+        All rights reserved.</p>
+</footer>
+
+</body>

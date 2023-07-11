@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{auth-layout ::head}"></head>
+<body>
+<div th:replace="~{auth-layout ::header}"></div>
+
+<main class="auth">
+  <form th:attr="action=@{/submit-login}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+    <h2>Sign In</h2>
+    <table>
+      <tbody>
+      <tr>
+        <td><label>Username*</label></td>
+        <td>
+          <input type="text" name="username" placeholder="Username" autocomplete="off">
+        </td>
+      </tr>
+      <tr>
+        <td><label>Password*</label></td>
+        <td>
+          <input type="password" name="password" placeholder="Password">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="button-like" type="submit">Sign In</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </form>
+  <p>
+    Not have account yet?
+    <p>
+    <a th:href="@{/account/register/Buyer}">Register as Buyer</a>
+    <a th:href="@{/account/register/Seller}">Register as Seller</a>
+    </p>
+  </p>
+</main>
+</body>
+</html>

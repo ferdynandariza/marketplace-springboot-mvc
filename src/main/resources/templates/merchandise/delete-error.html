@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body th:with="username=${#authentication.getName()}">
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <div class="error-box">
+    <h2>Delete Error!</h2>
+    <p>Errors occured while trying to delete <span class="bold" th:text="${name}"></span>'s data.</p>
+    <p>There are total <span class="bold" th:text="${totalDependentHistory}"></span> history and
+      <span class="bold" th:text="${totalDependentCart}"></span> cart related to them.</p>
+    <p>Please reach out developer team for more info.</p>
+  </div>
+  <a class="button-like" th:href="@{'/merchandise/' + ${username}}">
+    <i class="fas fa-arrow-left"></i> Back to Merchandise</a>
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

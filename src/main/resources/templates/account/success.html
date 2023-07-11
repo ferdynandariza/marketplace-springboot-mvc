@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{auth-layout ::head}"></head>
+<body>
+<div th:replace="~{auth-layout ::header}"></div>
+
+<main class="auth">
+
+    <h2>Registration success.</h2>
+
+  <p>
+    <a class="button-like" th:href="@{/account/login}">Go to Login Page</a>
+  </p>
+
+</main>
+</body>
+</html>

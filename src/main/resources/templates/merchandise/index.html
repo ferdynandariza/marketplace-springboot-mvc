@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body th:with="username=${#authentication.getName()}">
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+  <div>
+    <h2>Merchandise</h2>
+    <a class="button-like" th:href="@{/merchandise/form}">
+      <i class="fas fa-plus"></i> Add New Product
+    </a>
+  </div>
+
+  <div class="data-grid">
+    <table>
+      <thead>
+      <tr>
+        <th>Action</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Discontinue</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="row : ${table}" th:object="${row}">
+        <td>
+          <a class="button-like"
+             th:href="@{/merchandise/form(id=*{id})}"
+             th:attr="data-used=*{isUsed}">Edit</a>
+          <a class="button-like delete-button"
+             th:href="@{/merchandise/delete(id=*{id})}"
+             th:attr="data-name=*{name},
+             data-used=*{isUsed}">Delete</a>
+          <a class="button-like info-button"
+             th:href="@{/merchandise/info(id=*{id})}"
+             th:attr="data-name=*{name}, data-id=*{id}">Info</a>
+          <a class="button-like"
+             th:href="@{/merchandise/stop(id=*{id})}"
+             th:attr="data-discontinue=*{discontinue}">Discontinue</a>
+        </td>
+        <td>
+          <span th:text="*{name}"></span>
+        </td>
+        <td>
+          <span th:text="*{category}"></span>
+        </td>
+        <td>
+          <span th:text="*{discontinue}"></span>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="6">
+          <div class="pagination">
+            <div th:text="|Page ${currentPage} of ${totalPages}|"></div>
+            <div th:if="${totalPages != 0}">
+              <a th:each="loop:${#numbers.sequence(1, totalPages)}" class="button-like"
+                 th:href="@{'/merchandise/' + ${#authentication.getName()}(page=${loop})}" th:text="${loop}"></a>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="modal">
+    <div class="pop-up header-box">
+    <h2>Product Info</h2>
+      <table>
+        <tbody>
+        <tr>
+          <td>Name</td>
+          <td>: <span id="name"></span></td>
+        </tr>
+        <tr>
+          <td>Category</td>
+          <td>: <span id="category"></span></td>
+        </tr>
+        <tr>
+          <td>Description</td>
+          <td>: <span id="description"></span></td>
+        </tr>
+        <tr>
+          <td>Price</td>
+          <td>: <span id="price"></span></td>
+        </tr>
+        <tr>
+          <td>Discontinue</td>
+          <td>: <span id="discontinue"></span></td>
+        </tr>
+        </tbody>
+      </table>
+      <a class="button-like cancel" >Close</a>
+    </div>
+  </div>
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>

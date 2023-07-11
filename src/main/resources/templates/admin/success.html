@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head th:replace="~{layout ::head}"></head>
+<body>
+<header th:replace="~{layout ::header}"></header>
+<nav th:replace="~{layout ::navigation}"></nav>
+<main>
+
+  <div>
+    <h2>Success</h2>
+    <p>Registering admin successful.</p>
+  </div>
+
+    <a class="button-like"  th:href="@{/admin/index}">Back to Admin Menu</a>
+
+</main>
+<footer th:replace="~{layout ::footer}"></footer>
+
+</body>
